@@ -18,6 +18,7 @@ import (
 const (
 	// AppName namespace in redis key
 	AppName = "sysremot"
+	Version = "0.1.0"
 	// TheTicker theticker control how often worker do the resource gathering
 	TheTicker = 1 * time.Minute
 	// ExpireInterval value that determine who long history data be keep in redis
@@ -97,7 +98,7 @@ func (service *Service) removeConfigFile() (bool, error) {
 
 // Manage entrypoint to managing app
 func (service *Service) Manage() (string, error) {
-	usage := fmt.Sprintf("Usage: %s install | remove | start | stop | status", AppName)
+	usage := fmt.Sprintf("Usage: %s install | remove | start | stop | status | version", AppName)
 
 	if len(os.Args) > 1 {
 		command := os.Args[1]
@@ -120,6 +121,8 @@ func (service *Service) Manage() (string, error) {
 			return service.Stop()
 		case "status":
 			return service.Status()
+		case "version":
+			return fmt.Sprintf("%s v%s", AppName, Version), nil
 		default:
 			return usage, nil
 		}
