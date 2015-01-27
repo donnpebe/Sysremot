@@ -184,7 +184,8 @@ func main() {
 
 	status, err := service.Manage()
 	if err != nil {
-		errLogger.Fatalln(err)
+		fmt.Println(err)
+		os.Exit(1)
 	}
-	stdLogger.Println(status)
+	fmt.Println(status)
 }
