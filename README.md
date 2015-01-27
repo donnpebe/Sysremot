@@ -1,6 +1,6 @@
-# Sysremot - System Resource Monitoring tool
+# Sysremot - System Resource Monitoring Tool
 
-Sysremot monitors your linux system. It gathers the resource metrics and use redis to save those metrics.
+Sysremot monitors your Linux/Mac system resource. It gathers the resource metrics and use redis to save those metrics.
 
 What it does:
 
@@ -13,12 +13,15 @@ You can use those metrics to generate your own graph
 
 ## Requirements
 
-For now, the target system is Linux and Darwin
+- You need Linux or MacOS machine
+- You need redis server
+
+For now, I only test sysremot under Linux and MacOS system. Other systems maybe supported.
 
 ## Installation
 
 You need to build this tool first.
-Asuming that you already have the builed tool :
+Asuming that you already build the source code :
 
 - Install redis, and configure
 - Copy the tool binary to /usr/local/bin
@@ -26,6 +29,6 @@ Asuming that you already have the builed tool :
 - Run ```sysremot install```
 - Modify the config file in /etc/sysremot/sysremot.env
 
-## Author
-
-Sysremot is written by Netzumo Ninja.
+## License
+Copyright &copy; 2015 Donny Prasetyobudi.
+Sysremot is released under the Apache 2.0 License. See LICENSE.
