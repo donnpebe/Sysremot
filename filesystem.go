@@ -11,14 +11,9 @@ func formatSize(size uint64) uint64 {
 	return size * 1024
 }
 
-func filesystemJob(start time.Time) {
+func filesystemJob(roundedTime time.Time) {
 	conn := pool.Get()
 	defer conn.Close()
-
-	// round the time to the closest minute (round down)
-	roundedTs := roundTheTimestamp(start.Unix(), int64(TheTicker.Seconds()))
-	// convert back to time.Time
-	roundedTime := time.Unix(roundedTs, 0)
 
 	fslist := sigar.FileSystemList{}
 	err := fslist.Get()

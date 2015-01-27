@@ -158,8 +158,13 @@ func (service *Service) Manage() (string, error) {
 			jobs[4] = loadAvgJob
 			jobs[5] = filesystemJob
 
+			// round the time to the closest minute (round down)
+			roundedTs := roundTheTimestamp(t.Unix(), int64(TheTicker.Seconds()))
+			// convert back to time.Time
+			roundedTime := time.Unix(roundedTs, 0)
+
 			for _, job := range jobs {
-				go job(t)
+				go job(roundedTime)
 			}
 		}
 	}()

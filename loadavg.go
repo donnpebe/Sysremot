@@ -7,7 +7,7 @@ import (
 	"github.com/cloudfoundry/gosigar"
 )
 
-func loadAvgJob(start time.Time) {
+func loadAvgJob(roundedTime time.Time) {
 	conn := pool.Get()
 	defer conn.Close()
 

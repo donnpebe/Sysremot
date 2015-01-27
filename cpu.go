@@ -7,14 +7,10 @@ import (
 	"github.com/cloudfoundry/gosigar"
 )
 
-func cpuJob(start time.Time) {
+func cpuJob(roundedTime time.Time) {
 	conn := pool.Get()
 	defer conn.Close()
 
-	// round the time to the closest minute (round down)
-	roundedTs := roundTheTimestamp(start.Unix(), int64(TheTicker.Seconds()))
-	// convert back to time.Time
-	roundedTime := time.Unix(roundedTs, 0)
 	cpuCountKey := fmt.Sprintf("%s|cpu|count", AppName)
 
 	cpulist := sigar.CpuList{}

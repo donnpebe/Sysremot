@@ -7,7 +7,7 @@ import (
 	"github.com/cloudfoundry/gosigar"
 )
 
-func uptimeJob(start time.Time) {
+func uptimeJob(roundedTime time.Time) {
 	conn := pool.Get()
 	defer conn.Close()
 
