@@ -15,10 +15,8 @@ func swapJob(start time.Time) {
 	roundedTs := roundTheTimestamp(start.Unix(), int64(TheTicker.Seconds()))
 	// convert back to time.Time
 	roundedTime := time.Unix(roundedTs, 0)
-	// round the time to the closest hour (round down) then add the expire time
-	expireTs := roundTheTimestamp(start.Unix(), ExpireInterval/2) + ExpireInterval
 	currentKey := fmt.Sprintf("%s|swap|current", AppName)
-	historyKey := fmt.Sprintf("%s|swap|%s", AppName, roundedTime.Format("2006-01-02"))
+	historyKey := fmt.Sprintf("%s|swap|%s|%s", AppName, roundedTime.Format("2006-01-02"), roundedTime.Format("15:04:05"))
 
 	swap := sigar.Swap{}
 	err := swap.Get()
@@ -30,12 +28,9 @@ func swapJob(start time.Time) {
 	data := fmt.Sprintf(`{"total":"%d","used":"%d","free":"%d","in-percent":"%d"}`,
 		swap.Total, swap.Used, swap.Free, usePercent(swap.Total, swap.Free))
 
-	field := roundedTime.Format("15:04:05")
-
 	conn.Send("MULTI")
 	conn.Send("SETEX", currentKey, TheTicker.Seconds()*2, data)
-	conn.Send("HSET", historyKey, field, data)
-	conn.Send("EXPIREAT", historyKey, expireTs)
+	conn.Send("SETEX", historyKey, ExpireInterval, data)
 	_, err = conn.Do("EXEC")
 	if err != nil {
 		errLogger.Println(err)

@@ -15,8 +15,6 @@ func cpuJob(start time.Time) {
 	roundedTs := roundTheTimestamp(start.Unix(), int64(TheTicker.Seconds()))
 	// convert back to time.Time
 	roundedTime := time.Unix(roundedTs, 0)
-	// round the time to the closest hour (round down) then add the expire time
-	expireTs := roundTheTimestamp(start.Unix(), ExpireInterval/2) + ExpireInterval
 	cpuCountKey := fmt.Sprintf("%s|cpu|count", AppName)
 
 	cpulist := sigar.CpuList{}
@@ -39,13 +37,11 @@ func cpuJob(start time.Time) {
 			total, used, cpu.Idle, usePercent(total, cpu.Idle))
 
 		currentKey := fmt.Sprintf("%s|cpu:%d|current", AppName, i)
-		historyKey := fmt.Sprintf("%s|cpu:%d|%s", AppName, i, roundedTime.Format("2006-01-02"))
-		field := roundedTime.Format("15:04:05")
+		historyKey := fmt.Sprintf("%s|cpu:%d|%s|%s", AppName, i, roundedTime.Format("2006-01-02"), roundedTime.Format("15:04:05"))
 
 		conn.Send("MULTI")
 		conn.Send("SETEX", currentKey, TheTicker.Seconds()*2, data)
-		conn.Send("HSET", historyKey, field, data)
-		conn.Send("EXPIREAT", historyKey, expireTs)
+		conn.Send("SETEX", historyKey, ExpireInterval, data)
 		_, err = conn.Do("EXEC")
 		if err != nil {
 			errLogger.Println(err)
