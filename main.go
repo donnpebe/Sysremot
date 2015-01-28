@@ -183,7 +183,7 @@ func main() {
 	// initialize daemon for this app
 	srv, err := daemon.New(AppName, Description)
 	if err != nil {
-		errLogger.Fatalf("Error initializing daemon: \n", err)
+		errLogger.Fatalf("Error initializing daemon: %v\n", err)
 	}
 	service := &Service{srv}
 
