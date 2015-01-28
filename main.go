@@ -18,6 +18,7 @@ import (
 const (
 	// AppName namespace in redis key
 	AppName = "sysremot"
+	// Version app version
 	Version = "0.1.0"
 	// TheTicker theticker control how often worker do the resource gathering
 	TheTicker = 1 * time.Minute
