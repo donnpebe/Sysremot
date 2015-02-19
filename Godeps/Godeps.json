@@ -18,8 +18,8 @@
 		},
 		{
 			"ImportPath": "github.com/takama/daemon",
-			"Comment": "0.2.3-15-ga75901b",
-			"Rev": "a75901bca41c2f91ce1bbea4837d885bf20c61c0"
+			"Comment": "0.2.9",
+			"Rev": "e5fd25b84e87b2d2766cc93fd1dc718438808369"
 		}
 	]
 }
