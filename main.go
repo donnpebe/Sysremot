@@ -22,8 +22,6 @@ const (
 	Version = "0.1.0"
 	// TheTicker theticker control how often worker do the resource gathering
 	TheTicker = 1 * time.Minute
-	// ExpireInterval value that determine who long history data be keep in redis
-	ExpireInterval = 7200
 	// Description describe the app
 	Description    = "System Resource Monitoring Tool"
 	rootPrivileges = "You must have root user privileges. Possibly using 'sudo' command should help"
@@ -38,6 +36,8 @@ var (
 	stdLogger  = log.New(os.Stdout, "", log.LstdFlags)
 	configdir  = fmt.Sprintf("/etc/%s", AppName)
 	configfile = fmt.Sprintf("%s/%s.env", configdir, AppName)
+	// ExpireInterval value that determine who long history data be keep in redis
+	ExpireInterval int
 )
 
 // Service has embedded daemon
@@ -133,6 +133,12 @@ func (service *Service) Manage() (string, error) {
 	err := godotenv.Load(fmt.Sprintf("/etc/%s/%s.env", AppName, AppName))
 	if err != nil {
 		errLogger.Fatalln("Error loading .env file", err)
+	}
+
+	ExpireIntervalStr := os.Getenv("SRMT_EXPIRATION_INTERVAL")
+	ExpireInterval, err = strconv.Atoi(ExpireIntervalStr)
+	if err != nil {
+		errLogger.Fatalln("wrong expiration time value")
 	}
 
 	poolSizeStr := os.Getenv("SRMT_REDIS_POOL_SIZE")
