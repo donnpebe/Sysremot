@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"runtime"
 	"strconv"
 	"syscall"
 	"time"
@@ -187,6 +188,8 @@ func (service *Service) Manage() (string, error) {
 }
 
 func main() {
+	// Use all cores
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	// initialize daemon for this app
 	srv, err := daemon.New(AppName, Description)
 	if err != nil {
