@@ -1,0 +1,15 @@
+hash: 789f36910998725de46f10a7c5a836095101a43ac618850eb17fe85d498347d0
+updated: 2017-04-25T15:26:22.339391851+07:00
+imports:
+- name: github.com/cloudfoundry/gosigar
+  version: dfaa4d491586af21e1ce06028df3926389a99654
+- name: github.com/garyburd/redigo
+  version: 0d253a66e6e1349f4581d6d2b300ee434ee2da9f
+  subpackages:
+  - internal
+  - redis
+- name: github.com/joho/godotenv
+  version: 325433c502d409f3c3dc820098fb0cfe38d98dc7
+- name: github.com/takama/daemon
+  version: 22bdf59189965ab1d65371328dec0b12340ff66d
+testImports: []
